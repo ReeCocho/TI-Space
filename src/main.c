@@ -39,6 +39,11 @@ void main(void)
 	// Set color palette
 	gfx_SetPalette(spc_color_palette, sizeof(uint16_t) * SPC_COLOR_COUNT, 0);
 	gfx_SetTransparentColor(1);
+	gfx_SetTextFGColor(2);
+	gfx_SetColor(2);
+	
+	// Initialize player
+	init_player();
 	
 	// Wait for a key to be pressed
     while (1)
@@ -52,10 +57,12 @@ void main(void)
 		// Clear screen
 		gfx_ZeroScreen();
 		
-		// Draw player
+		// Game logic
 		move_player();
+		shoot_player();
+		draw_projectiles();
 		draw_player();
-		
+	
 		// Swap back buffer
 		gfx_SwapDraw();
 	}
