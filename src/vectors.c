@@ -44,6 +44,11 @@ float vec2_mag(vec2 v)
 	return sqrt(vec2_dot(v, v));
 }
 
+float vec2_dist(vec2 v1, vec2 v2)
+{
+	return vec2_mag(vec2_sub(v1, v2));
+}
+
 vec2 vec2_norm(vec2 v)
 {
 	return vec2_scl(v, 1.0f/vec2_mag(v));
