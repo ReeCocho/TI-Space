@@ -1,6 +1,9 @@
 #ifndef TIP_VECTORS_H
 #define TIP_VECTORS_H
 
+/* Includes. */
+#include <math.h>
+
 /* Vector structure. */
 typedef struct
 {

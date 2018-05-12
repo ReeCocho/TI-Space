@@ -25,6 +25,9 @@ extern Projectile spc_projectiles[SPC_PROJ_COUNT];
 /* Position in world space. */
 extern vec2 spc_player_position;
 
+/* Player score. */
+extern unsigned int spc_player_score;
+
 /* Initialize player. */
 extern void init_player();
 
@@ -39,5 +42,8 @@ extern void draw_projectiles();
 
 /* Draw the player on screen. */
 extern void draw_player();
+
+/* Draw the score counter. */
+extern void draw_score();
 
 #endif

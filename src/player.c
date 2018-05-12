@@ -12,6 +12,8 @@ Projectile spc_projectiles[SPC_PROJ_COUNT];
 
 vec2 spc_player_position = { 4.0f, 7.0f };
 
+unsigned int spc_player_score = 0;
+
 /* Player sprite data. */
 uint8_t spc_player_sprite[2 + (SPC_PLAYER_WIDTH * SPC_PLAYER_HEIGHT)] =
 {
@@ -94,10 +96,10 @@ void draw_projectiles()
 			x_pos = to_screen_space(spc_projectiles[i].position.x);
 			y_pos = to_screen_space(spc_projectiles[i].position.y);
 			gfx_FillRectangle(x_pos - 1, y_pos - 1, 3, 3);
+			
+			// Disable out of bounds projectile
+			if(spc_projectiles[i].position.y < 0.0f) spc_projectiles[i].enabled = 0;
 		}
-		
-		// Disable out of bounds projectile
-		if(spc_projectiles[i].position.y < 0.0f) spc_projectiles[i].enabled = 0;
 	}
 }
 
@@ -116,6 +118,13 @@ void draw_player()
 		SPC_SCL_FAC
 	);
 	
-	gfx_SetTextXY(32, 32);
-	gfx_PrintUInt((unsigned int)timer_1_Counter, 8);
+	// gfx_SetTextXY(32, 32);
+	// gfx_PrintUInt((unsigned int)timer_1_Counter, 8);
+}
+
+void draw_score()
+{
+	gfx_SetTextXY(16, 16);
+	gfx_PrintString("Score : ");
+	gfx_PrintUInt(spc_player_score, 4);
 }

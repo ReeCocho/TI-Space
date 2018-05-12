@@ -30,6 +30,9 @@
 
 void main(void) 
 {
+	// Countdown timer
+	uint8_t countdown;
+
 	// Clear the screen
     os_ClrHome();
 	
@@ -63,31 +66,72 @@ void main(void)
 	// an interrupt once it reaches 0, and make it count up.
     timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_NOINT | TIMER1_UP;
 	
-	// Wait for a key to be pressed
-    while (spc_game_running)
+	// Instructions
+	gfx_ZeroScreen();
+	gfx_PrintStringXY("Press ENTER to begin.", (LCD_WIDTH / 2) - 76, (LCD_HEIGHT / 2) + 24);
+	gfx_PrintStringXY("Press CLEAR to quit.", (LCD_WIDTH / 2) - 72, (LCD_HEIGHT / 2) + 8);
+	gfx_PrintStringXY("Use ARROWS to move.", (LCD_WIDTH / 2) - 68, (LCD_HEIGHT / 2) - 8); 
+	gfx_PrintStringXY("Use ALPHA to shoot.", (LCD_WIDTH / 2) - 68, (LCD_HEIGHT / 2) - 24); 
+	gfx_SwapDraw();
+	
+	// Wait for begin
+	while(1)
 	{
-		// Update kb_Data
 		kb_Scan();
-	
-		// Close game
-		if(kb_Data[6] & kb_Clear) spc_game_running = 0;
-	
-		// Clear screen
-		gfx_ZeroScreen();
+		if(kb_Data[6] & kb_Clear) goto skip_game_over;
+		if(!(kb_Data[6] & kb_Enter)) continue;
 		
-		// Game logic
-		calculate_delta_time();
-		draw_background();
-		move_player();
-		shoot_player();
-		draw_projectiles();
-		draw_asteroids();
-		draw_player();
+		// Countdown
+		for(countdown = 3; countdown <= 3; --countdown)
+		{
+			gfx_ZeroScreen();
+			gfx_SetTextXY(LCD_WIDTH / 2, LCD_HEIGHT / 2);
+			gfx_PrintUInt(countdown, 1);
+			gfx_SwapDraw();
+			delay(1000);
+		}
 	
-		// Swap back buffer
-		gfx_SwapDraw();
+		// Run game
+		while (spc_game_running)
+		{
+			// Update kb_Data
+			kb_Scan();
+		
+			// Close game
+			if(kb_Data[6] & kb_Clear) spc_game_running = 0;
+		
+			// Clear screen
+			gfx_ZeroScreen();
+			
+			// Game logic
+			calculate_delta_time();
+			draw_background();
+			move_player();
+			shoot_player();
+			draw_projectiles();
+			draw_asteroids();
+			draw_player();
+			draw_score();
+		
+			// Swap back buffer
+			gfx_SwapDraw();
+		}
+		
+		break;
 	}
 
+	// Game over text
+	gfx_ZeroScreen();
+	gfx_PrintStringXY("GAME OVER", (LCD_WIDTH/2)-32, LCD_HEIGHT/2);
+	gfx_SwapDraw();
+
+	delay(500);
+	
+	// Wait for a key press
+    while (!os_GetCSC());
+
+	skip_game_over:
+	
     // Close the graphics
     gfx_End();
 }

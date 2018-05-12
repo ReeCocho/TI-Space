@@ -1,5 +1,4 @@
 /* Includes. */
-#include <math.h>
 #include "vectors.h"
 
 vec2 vec2_add(vec2 v1, vec2 v2)
@@ -41,12 +40,14 @@ float vec2_dot(vec2 v1, vec2 v2)
 
 float vec2_mag(vec2 v)
 {
-	return sqrt(vec2_dot(v, v));
+	float dot = vec2_dot(v, v);
+	return sqrt(dot);
 }
 
 float vec2_dist(vec2 v1, vec2 v2)
 {
-	return vec2_mag(vec2_sub(v1, v2));
+	vec2 diff = vec2_sub(v1, v2);
+	return vec2_mag(diff);
 }
 
 vec2 vec2_norm(vec2 v)
