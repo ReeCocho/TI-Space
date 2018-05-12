@@ -71,7 +71,7 @@ void draw_asteroids()
 			gfx_FillCircle(x_pos, y_pos, (unsigned)(SPC_PPU * spc_asteroids[i].radius));
 			
 			// Player collision
-			if(vec2_dist(spc_asteroids[i].position, spc_player_position) <= 0.45f + (spc_asteroids[i].radius))
+			if(vec2_dist(spc_asteroids[i].position, spc_player_position) <= 0.4f + (spc_asteroids[i].radius))
 				spc_game_running = 0;
 			
 			// Check OOB
