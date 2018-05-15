@@ -122,7 +122,9 @@ void main(void)
 
 	// Game over text
 	gfx_ZeroScreen();
-	gfx_PrintStringXY("GAME OVER", (LCD_WIDTH/2)-32, LCD_HEIGHT/2);
+	gfx_PrintStringXY("GAME OVER", (LCD_WIDTH/2)-32, (LCD_HEIGHT/2) - 6);
+	gfx_PrintStringXY("Score : ", (LCD_WIDTH/2)-38, (LCD_HEIGHT/2) + 6);
+	gfx_PrintUInt(spc_player_score, 4);
 	gfx_SwapDraw();
 
 	delay(500);
